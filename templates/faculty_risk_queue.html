@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Risk Priority Queue</title>
+    <style>
+        /* DASHBOARD DESIGN SYSTEM */
+        :root {
+            --primary: #1e293b;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--primary);
+            margin: 0;
+            padding: 40px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title h2 {
+            margin: 0;
+            font-size: 1.75rem;
+            color: var(--primary);
+        }
+
+        .header-title p {
+            margin: 5px 0 0 0;
+            color: #64748b;
+        }
+
+        /* TABLE STYLING */
+        .table-container {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #475569;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 16px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* STATUS PILLS */
+        .risk-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .priority-high { background-color: #fee2e2; color: var(--danger); }
+        .priority-med { background-color: #fef3c7; color: var(--warning); }
+        .priority-low { background-color: #d1fae5; color: var(--success); }
+
+        .score-box {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        .btn-action {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-action:hover { text-decoration: underline; }
+
+    </style>
+</head>
+<body>
+
+<div class="dashboard-header">
+    <div class="header-title">
+        <h2>Faculty Risk Priority Queue</h2>
+        <p>Students prioritized by academic drift and attendance flags.</p>
+    </div>
+    <div>
+        <a href="/faculty_dashboard" class="btn-action">← General Dashboard</a>
+    </div>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Class</th>
+                <th>Attendance</th>
+                <th>Weak Areas</th>
+                <th>Drift Score</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s, score, weak_count in risk_list %}
+            <tr>
+                <td><strong>{{ s[1] }}</strong></td>
+                <td>{{ s[6] }}</td>
+                <td>{{ s[7] }}%</td>
+                <td>
+                    <span style="color: {% if weak_count > 2 %}var(--danger){% else %}inherit{% endif %}">
+                        {{ weak_count }} Subjects
+                    </span>
+                </td>
+                <td class="score-box">{{ score }}</td>
+                <td>
+                    {% if score >= 70 %}
+                        <span class="risk-badge priority-high">High Alert</span>
+                    {% elif score >= 40 %}
+                        <span class="risk-badge priority-med">Watch List</span>
+                    {% else %}
+                        <span class="risk-badge priority-low">Stable</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div style="margin-top: 20px; color: #94a3b8; font-size: 0.85rem;">
+    📌 <i>Sorted by Priority: High Alert students require intervention within 48 hours.</i>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard - EduRescue</title>
+    <style>
+        /* UNIQUE CUSTOM STYLING - NO EXTERNAL DEPENDENCIES */
+        :root {
+            --primary-dark: #2c3e50;
+            --accent-blue: #3498db;
+            --success-green: #27ae60;
+            --warning-orange: #f39c12;
+            --danger-red: #e74c3c;
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--primary-dark);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header-card {
+            background: var(--primary-dark);
+            color: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 { margin: 0; font-size: 1.8rem; }
+        h3 { border-bottom: 2px solid #eee; padding-bottom: 8px; margin-top: 25px; color: var(--accent-blue); }
+
+        /* Grid Layout for Cards */
+        .grid-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .info-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Status Badge */
+        .status-box {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #eee;
+        }
+
+        /* Custom Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th { background-color: #f8f9fa; color: var(--primary-dark); }
+
+        /* Nav Links Styling */
+        .nav-footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .nav-footer a {
+            text-decoration: none;
+            color: var(--accent-blue);
+            font-weight: bold;
+            padding: 10px 15px;
+            transition: 0.3s;
+        }
+
+        .nav-footer a:hover {
+            background: #e1f0fa;
+            border-radius: 5px;
+        }
+
+        /* Heatmap Specifics */
+        .heatmap-cell {
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .grid-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    
+    <div class="header-card">
+        <h2>{{ student.name }}</h2>
+        <p>Class: {{ student.class }} | Enrolled Student Profile</p>
+    </div>
+
+    <div class="grid-row">
+        <div class="info-card">
+            <h3>Personal Details</h3>
+            <p><b>Father:</b> {{ student.father }}</p>
+            <p><b>Mother:</b> {{ student.mother }}</p>
+            <p><b>Mobile:</b> {{ student.mobile }}</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Academic Overview</h3>
+            <p><b>Attendance:</b> {{ student.attendance }}%</p>
+            <p><b>Exams Attempted:</b> {{ student.exams_attempted }}</p>
+            <p><b>Extra Curricular:</b> {{ student.extracurricular }}</p>
+        </div>
+    </div>
+
+    <div class="info-card" style="margin-top: 20px;">
+        <h3>Overall Academic Status</h3>
+        <div class="status-box">
+            Status: {{ status }}
+        </div>
+    </div>
+
+    <div class="grid-row" style="margin-top: 20px;">
+        <div class="info-card">
+            <h3>Subject-wise Scores</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject, score in marks.items() %}
+                    <tr>
+                        <td>{{ subject }}</td>
+                        <td>{{ score }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-card">
+            <h3>Performance Insights</h3>
+            <p><b>Strong Areas:</b> <span style="color: var(--success-green);">{{ strong | join(", ") if strong else "Analysis pending..." }}</span></p>
+            <p><b>Weak Areas:</b> <span style="color: var(--danger-red);">{{ weak | join(", ") if weak else "Analysis pending..." }}</span></p>
+            
+            <h3 style="margin-top: 40px;">Subject Heatmap</h3>
+            <table>
+                {% for subject, color in heatmap.items() %}
+                <tr class="heatmap-cell" style="background-color: {{ color }}">
+                    <td>{{ subject }}</td>
+                    <td>{{ color | capitalize }} Performance</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="nav-footer">
+        <a href="/student/charts">📊 Charts</a> |
+        <a href="/rules">📘 Logic Rules</a> |
+        <a href="/rescue">🛠 Rescue Plan</a> |
+        <a href="/logout" style="color: var(--danger-red);">🚪 Logout</a>
+    </div>
+
+</div>
+
+</body>
+</html>

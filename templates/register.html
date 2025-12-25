@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<style>
+
+    body {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+h2 {
+  color: #2d3748;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+  width: 100%;
+  max-width: 500px;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #4299e1, #667eea);
+  border-radius: 2px;
+}
+
+form {
+  background: white;
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(66, 153, 225, 0.15);
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 30px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 1.1rem;
+  text-align: left;
+}
+
+input, select {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8fafc;
+  color: #2d3748;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+  background: white;
+}
+
+input::placeholder {
+  color: #a0aec0;
+}
+
+button {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(90deg, #4299e1, #667eea);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  margin-top: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  align-self: center;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(66, 153, 225, 0.4);
+  background: linear-gradient(90deg, #3182ce, #5a67d8);
+}
+
+p[style*="color: red"] {
+  background: linear-gradient(135deg, #fff5f5, #fed7d7);
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 5px solid #e53e3e;
+  max-width: 500px;
+  margin: 30px auto;
+  line-height: 1.6;
+  color: #c53030 !important;
+  font-weight: 500;
+  box-shadow: 0 5px 15px rgba(229, 62, 62, 0.1);
+  text-align: center;
+}
+
+p:not([style*="color: red"]) {
+  text-align: center;
+  color: #718096;
+  font-size: 1.1rem;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+a {
+  color: #4299e1;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 2px 4px;
+  display: inline-block;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #4299e1;
+  transition: width 0.3s ease;
+}
+
+a:hover {
+  color: #3182ce;
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(66, 153, 225, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(102, 126, 234, 0.05) 0%, transparent 40%);
+  z-index: -1;
+}
+
+@media (max-width: 600px) {
+  form {
+    padding: 30px 25px;
+    margin: 0 20px;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    padding: 0 15px;
+    margin-bottom: 30px;
+  }
+  
+  button {
+    padding: 16px;
+  }
+  
+  p[style*="color: red"] {
+    margin: 20px;
+    padding: 15px;
+  }
+}
+</style>
+<body>
+
+  <h2>User Registration</h2>
+
+  <form method="post">
+
+    <label>Full Name</label><br>
+    <input name="name" placeholder="Full Name" required>
+    <br><br>
+
+    <label>Register As</label><br>
+    <select name="role" required>
+      <option value="student">Student</option>
+      <option value="faculty">Faculty (Authorized Only)</option>
+    </select>
+    <br><br>
+
+    <label>Email</label><br>
+    <input name="email" placeholder="Email" required>
+    <br><br>
+
+    <label>Password</label><br>
+    <input type="password" name="password" placeholder="Password" required>
+    <br><br>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <br>
+
+  <p style="color: red; font-size: 14px;">
+    ⚠ Faculty registration is allowed only for institution-approved emails.<br>
+    Students attempting to register as faculty will be blocked.
+  </p>
+
+  <p>
+    Already registered? <a href="/login">Login</a>
+  </p>
+
+</body>
+</html>

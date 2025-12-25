@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Rescue Plan</title>
+    <style>
+        /* UNIQUE CUSTOM CSS - NO EXTERNAL LIBRARIES */
+        :root {
+            --primary-navy: #1a2a6c;
+            --accent-gold: #f1c40f;
+            --paper-white: #ffffff;
+            --text-gray: #444444;
+            --border-light: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        /* Container designed to look like a printed report */
+        .rescue-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--paper-white);
+            padding: 50px;
+            border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-top: 6px solid var(--primary-navy);
+            position: relative;
+        }
+
+        h2 {
+            color: var(--primary-navy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .summary-box {
+            background-color: #f9fbfc;
+            border: 1px solid var(--border-light);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .summary-item b {
+            color: var(--primary-navy);
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .summary-item span {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: var(--primary-navy);
+            font-size: 1.2rem;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: "➔";
+            margin-right: 10px;
+            color: var(--accent-gold);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 15px 20px;
+            border-left: 4px solid var(--accent-gold);
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.02);
+            transition: transform 0.2s;
+        }
+
+        li:hover {
+            transform: scale(1.01);
+        }
+
+        .logic-note {
+            margin-top: 50px;
+            padding: 20px;
+            background: #fff9e6;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #7d6608;
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            color: var(--primary-navy);
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: opacity 0.3s;
+        }
+
+        .back-btn:hover {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 600px) {
+            .rescue-container { padding: 25px; }
+            .summary-box { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="rescue-container">
+    <h2>Academic Recovery Strategy</h2>
+
+    <div class="summary-box">
+        <div class="summary-item">
+            <b>Current Attendance</b>
+            <span>{{ attendance }}%</span>
+        </div>
+        {% if weak %}
+        <div class="summary-item">
+            <b>Target Subject Focus</b>
+            <span>{{ weak | join(", ") }}</span>
+        </div>
+        {% endif %}
+    </div>
+
+    <h3>Recommended Strategic Actions</h3>
+    <ul>
+        {% for action in actions %}
+            <li>{{ action }}</li>
+        {% endfor %}
+    </ul>
+
+    <div class="logic-note">
+        <strong>System Methodology:</strong><br>
+        📌 These interventions are synthesized via deterministic rule-based academic logic. 
+        Recommendations are mapped directly to your performance metrics to ensure maximum 
+        recoverability of grades.
+    </div>
+
+    <a href="/student/dashboard" class="back-btn">⬅ Return to Dashboard</a>
+</div>
+
+</body>
+</html>

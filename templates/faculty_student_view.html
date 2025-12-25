@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile Detail</title>
+    <style>
+        /* UNIQUE SEMANTIC STYLING */
+        :root {
+            --primary-dark: #0f172a;
+            --accent-blue: #2563eb;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-bg: #ffffff;
+            --body-bg: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--body-bg);
+            color: var(--primary-dark);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .profile-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* Left Side: Identity Section */
+        .identity-sidebar {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 40px;
+        }
+
+        .identity-sidebar h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .identity-sidebar p {
+            opacity: 0.8;
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+
+        .attendance-stat {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .attendance-val {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+            color: var(--accent-blue);
+        }
+
+        /* Right Side: Data Section */
+        .academic-content {
+            flex: 2;
+            min-width: 350px;
+            padding: 40px;
+        }
+
+        h3 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .subject-grid {
+            list-style: none;
+            padding: 0;
+        }
+
+        .subject-item {
+            margin-bottom: 18px;
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        /* Subject Progress Bars */
+        .progress-track {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .profile-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <div class="identity-sidebar">
+        <h2>{{ student.name }}</h2>
+        <p><b>Email:</b> {{ student.email }}</p>
+        <p><b>Mobile:</b> {{ student.mobile }}</p>
+        <p><b>Class:</b> {{ student.class }}</p>
+
+        <div class="attendance-stat">
+            <span class="attendance-val">{{ student.attendance }}%</span>
+            <span>Total Attendance</span>
+        </div>
+        
+        <a href="/faculty_dashboard" class="btn-back" style="color: #cbd5e1;">← Back to List</a>
+    </div>
+
+    <div class="academic-content">
+        <h3>Subject Proficiency</h3>
+        <ul class="subject-grid">
+            {% for s, m in marks.items() %}
+            <li class="subject-item">
+                <div class="subject-header">
+                    <span>{{ s }}</span>
+                    <span>{{ m }}/100</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" 
+                         style="width: {{ m }}%; 
+                                background-color: {% if m >= 75 %}var(--success){% elif m >= 40 %}var(--warning){% else %}var(--danger){% endif %};">
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        
+        <div style="margin-top: 20px; font-size: 0.85rem; color: #64748b;">
+            💡 <i>Colors indicate: Green (Stable), Yellow (Watch), Red (Drift Alert)</i>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

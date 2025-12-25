@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* MODERN DASHBOARD STYLING */
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --primary-navy: #1e293b;
+            --accent-blue: #3b82f6;
+            --text-main: #334155;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .chart-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--primary-navy);
+            font-size: 1.5rem;
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 1.5rem;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .btn-back:hover {
+            color: var(--accent-blue);
+        }
+
+        canvas {
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chart-container">
+    <h2>Subject-wise Academic Performance</h2>
+    
+    <canvas id="chart"></canvas>
+
+    <a href="/student/dashboard" class="btn-back">⬅ Return to Dashboard</a>
+</div>
+
+<script>
+    const ctx = document.getElementById("chart").getContext("2d");
+    
+    // Create a subtle gradient for the bars
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(59, 130, 246, 0.8)'); // Accent Blue
+    gradient.addColorStop(1, 'rgba(59, 130, 246, 0.3)');
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: {{ labels | safe }},
+            datasets: [{
+                label: "Marks Obtained",
+                data: {{ scores | safe }},
+                backgroundColor: gradient,
+                borderColor: '#2563eb',
+                borderWidth: 1,
+                borderRadius: 6, // Rounded bars look more modern
+                barThickness: 40
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false // Cleaner look without the legend for single dataset
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: {
+                        color: "#f1f5f9"
+                    },
+                    ticks: {
+                        callback: function(value) { return value + "%" }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
